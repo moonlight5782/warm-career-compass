@@ -1,9 +1,13 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+
 const Footer = () => {
+  const { t } = useLanguage();
+
   const links = [
-    { label: "Despre noi", href: "#" },
-    { label: "Companii", href: "#" },
-    { label: "Contacte", href: "#" },
-    { label: "Politica de confidențialitate", href: "#" },
+    { label: t.aboutUs, href: "#" },
+    { label: t.companies, href: "#" },
+    { label: t.contacts, href: "#" },
+    { label: t.privacyPolicy, href: "#" },
   ];
 
   return (
@@ -15,7 +19,7 @@ const Footer = () => {
         </div>
 
         <nav className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-          {links.map((link, index) => (
+          {links.map((link) => (
             <a
               key={link.label}
               href={link.href}
