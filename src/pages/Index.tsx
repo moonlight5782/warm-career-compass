@@ -1,21 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import SearchResults from "@/components/SearchResults";
 import CategoriesSection from "@/components/CategoriesSection";
 import CompaniesSection from "@/components/CompaniesSection";
 import Footer from "@/components/Footer";
-import { Company } from "@/data/mockData";
+import { Company, companies } from "@/data/mockData";
+import { translateCity } from "@/ui/translateCity";
 
 const Index = () => {
   const [searchResults, setSearchResults] = useState<Company[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
-  const handleSearch = (results: Company[], query: string) => {
-    setSearchResults(results);
+  // динамическая фильтрация по запросу
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = companies.filter((c) =>
+        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        translateCity(c.city).toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setSearchResults(filtered);
+      setHasSearched(true);
+    } else {
+      setSearchResults([]);
+      setHasSearched(false);
+    }
+  }, [searchQuery]);
+
+  // обработчик поиска из HeroSection
+  const handleSearch = (query: string) => {
     setSearchQuery(query);
-    setHasSearched(true);
   };
 
   return (
