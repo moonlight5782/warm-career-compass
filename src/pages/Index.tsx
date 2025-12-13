@@ -6,7 +6,7 @@ import CategoriesSection from "@/components/CategoriesSection";
 import CompaniesSection from "@/components/CompaniesSection";
 import Footer from "@/components/Footer";
 import { Company, companies } from "@/data/mockData";
-import { translateCity } from "@/ui/translateCity";
+import { translateCity } from "@/components/ui/translateCity";
 
 const Index = () => {
   const [searchResults, setSearchResults] = useState<Company[]>([]);
