@@ -34,12 +34,14 @@ interface Translations {
   alreadyHaveAccount: string;
   // Company Card
   address: string;
+  phone: string;
   otherProfessions: string;
   bookExcursion: string;
   aboutCompany: string;
   // Calendar
   selectDate: string;
   availableDates: string;
+  unavailableDates: string;
   book: string;
   cancel: string;
   // Search
@@ -73,11 +75,13 @@ const translations: Record<Language, Translations> = {
     dontHaveAccount: "Nu ai cont?",
     alreadyHaveAccount: "Ai deja cont?",
     address: "Adresa",
+    phone: "Telefon",
     otherProfessions: "Alte profesii",
     bookExcursion: "Rezervă excursie practică",
     aboutCompany: "Despre companie",
     selectDate: "Selectează data",
     availableDates: "Date disponibile",
+    unavailableDates: "Date ocupate",
     book: "Rezervă",
     cancel: "Anulează",
     searchResults: "Rezultate căutare",
@@ -108,11 +112,13 @@ const translations: Record<Language, Translations> = {
     dontHaveAccount: "Нет аккаунта?",
     alreadyHaveAccount: "Уже есть аккаунт?",
     address: "Адрес",
+    phone: "Телефон",
     otherProfessions: "Другие профессии",
     bookExcursion: "Записаться на экскурсию",
     aboutCompany: "О компании",
     selectDate: "Выберите дату",
     availableDates: "Доступные даты",
+    unavailableDates: "Занятые даты",
     book: "Записаться",
     cancel: "Отмена",
     searchResults: "Результаты поиска",

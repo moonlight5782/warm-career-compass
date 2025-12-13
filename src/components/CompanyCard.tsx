@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Calendar, ChevronDown, ChevronUp } from "lucide-react";
+import { MapPin, Phone, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Company, professions as allProfessions } from "@/data/mockData";
 import BookingCalendar from "./BookingCalendar";
@@ -63,7 +63,23 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
               <h4 className="font-semibold text-foreground text-sm mb-1">
                 {t.address}
               </h4>
-              <p className="text-muted-foreground text-sm">{company.address}</p>
+              <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                <MapPin className="w-4 h-4 text-primary" />
+                <span>{company.address}</span>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div>
+              <h4 className="font-semibold text-foreground text-sm mb-1">
+                {t.phone}
+              </h4>
+              <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                <Phone className="w-4 h-4 text-primary" />
+                <a href={`tel:${company.phone}`} className="hover:text-primary transition-colors">
+                  {company.phone}
+                </a>
+              </div>
             </div>
 
             {/* Other professions */}
@@ -100,6 +116,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         onClose={() => setIsCalendarOpen(false)}
         companyName={company.name}
         availableDates={company.availableDates}
+        unavailableDates={company.unavailableDates}
       />
     </>
   );
