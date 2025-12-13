@@ -1,6 +1,6 @@
-import { MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { companies } from "@/data/mockData";
+import CompanyCard from "./CompanyCard";
 
 const CompaniesSection = () => {
   const { t } = useLanguage();
@@ -18,26 +18,9 @@ const CompaniesSection = () => {
           {t.companiesSubtitle}
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 lg:gap-5">
-          {displayCompanies.map((company, index) => (
-            <div
-              key={company.id}
-              className="card-warm flex items-center gap-4 cursor-pointer group py-5 px-5"
-              style={{ animationDelay: `${index * 80}ms` }}
-            >
-              <div className="company-avatar group-hover:scale-110 transition-transform duration-300">
-                {company.initial}
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                  {company.name}
-                </h3>
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <MapPin className="w-3 h-3" />
-                  <span>{company.city}</span>
-                </div>
-              </div>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
+          {displayCompanies.map((company) => (
+            <CompanyCard key={company.id} company={company} />
           ))}
         </div>
       </div>
