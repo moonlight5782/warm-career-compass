@@ -18,6 +18,10 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
     return profession ? profession.name[language] : professionId;
   };
 
+  const getCityName = (city: string) => {
+    return t.cities[city] || city;
+  };
+
   return (
     <>
       <div className="card-warm">
@@ -30,7 +34,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
             <h3 className="font-bold text-lg text-foreground">{company.name}</h3>
             <div className="flex items-center gap-1 text-muted-foreground text-sm">
               <MapPin className="w-4 h-4" />
-              <span>{company.city}</span>
+              <span>{getCityName(company.city)}</span>
             </div>
           </div>
           <button

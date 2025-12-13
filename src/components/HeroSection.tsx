@@ -83,7 +83,7 @@ const HeroSection = ({ onSearch }: HeroSectionProps) => {
               <div className="flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-primary" />
                 <span className="text-sm md:text-base">
-                  {selectedCity || t.selectCity}
+                  {selectedCity ? t.cities[selectedCity] || selectedCity : t.selectCity}
                 </span>
               </div>
               <ChevronDown className="w-4 h-4 text-muted-foreground" />
@@ -95,7 +95,7 @@ const HeroSection = ({ onSearch }: HeroSectionProps) => {
                   onClick={() => setSelectedCity(city)}
                   className="cursor-pointer hover:bg-secondary/50 rounded-lg"
                 >
-                  {city}
+                  {t.cities[city] || city}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
