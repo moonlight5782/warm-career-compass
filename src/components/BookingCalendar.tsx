@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Dialog,
@@ -13,6 +13,7 @@ interface BookingCalendarProps {
   onClose: () => void;
   companyName: string;
   availableDates: string[];
+  unavailableDates: string[];
 }
 
 const BookingCalendar = ({
@@ -20,6 +21,7 @@ const BookingCalendar = ({
   onClose,
   companyName,
   availableDates,
+  unavailableDates,
 }: BookingCalendarProps) => {
   const { t, language } = useLanguage();
   const [currentMonth, setCurrentMonth] = useState(new Date(2025, 11, 1)); // December 2025
@@ -68,6 +70,10 @@ const BookingCalendar = ({
 
   const isAvailable = (day: number) => {
     return availableDates.includes(formatDateString(day));
+  };
+
+  const isUnavailable = (day: number) => {
+    return unavailableDates.includes(formatDateString(day));
   };
 
   const handlePrevMonth = () => {
@@ -148,6 +154,8 @@ const BookingCalendar = ({
                         ? "bg-primary text-primary-foreground"
                         : isAvailable(day)
                         ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400"
+                        : isUnavailable(day)
+                        ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 cursor-not-allowed"
                         : "text-muted-foreground cursor-not-allowed"
                     }`}
                   >
@@ -159,10 +167,14 @@ const BookingCalendar = ({
           </div>
 
           {/* Legend */}
-          <div className="flex items-center gap-4 mt-4 text-sm">
+          <div className="flex items-center gap-4 mt-4 text-sm flex-wrap">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded bg-green-100 dark:bg-green-900/30" />
               <span className="text-muted-foreground">{t.availableDates}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-red-100 dark:bg-red-900/30" />
+              <span className="text-muted-foreground">{t.unavailableDates}</span>
             </div>
           </div>
 
