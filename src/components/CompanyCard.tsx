@@ -1,3 +1,4 @@
+// src/components/CompanyCard.tsx
 import { useState } from "react";
 import { MapPin, Phone, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -18,13 +19,11 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
     return profession ? profession.name[language] : professionId;
   };
 
-  const getCityName = (city: string) => {
-    return t.cities[city] || city;
-  };
+  const getCityName = (city: string) => t.cities[city] || city;
 
   return (
     <>
-      <div className="card-warm flex flex-col w-full relative border rounded-lg shadow-md p-4 bg-white">
+      <div className="card-warm relative border rounded-lg p-4 bg-white shadow-md">
         {/* Header */}
         <div className="flex items-start gap-4 mb-2">
           <div className="company-avatar shrink-0">{company.initial}</div>
@@ -47,13 +46,9 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
           </button>
         </div>
 
-        {/* Expanded content */}
-        <div
-          className={`transition-all duration-300 ease-in-out overflow-hidden ${
-            isExpanded ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-          }`}
-        >
-          <div className="space-y-4 mt-2">
+        {/* Expanded content (абсолютно позиционированная панель) */}
+        {isExpanded && (
+          <div className="absolute left-0 top-full w-full bg-white border rounded-lg shadow-lg p-4 z-10 animate-fade-in">
             {/* About */}
             <div>
               <h4 className="font-semibold text-foreground text-sm mb-1">{t.aboutCompany}</h4>
@@ -104,7 +99,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
               {t.bookExcursion}
             </button>
           </div>
-        </div>
+        )}
       </div>
 
       <BookingCalendar
