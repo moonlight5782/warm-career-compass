@@ -47,6 +47,10 @@ interface Translations {
   // Search
   searchResults: string;
   noResults: string;
+  // Cities
+  cities: {
+    [key: string]: string;
+  };
 }
 
 const translations: Record<Language, Translations> = {
@@ -86,6 +90,15 @@ const translations: Record<Language, Translations> = {
     cancel: "Anulează",
     searchResults: "Rezultate căutare",
     noResults: "Nu s-au găsit rezultate",
+    cities: {
+      "Chișinău": "Chișinău",
+      "Bălți": "Bălți",
+      "Orhei": "Orhei",
+      "Cahul": "Cahul",
+      "Ungheni": "Ungheni",
+      "Tiraspol": "Tiraspol",
+      "Comrat": "Comrat",
+    },
   },
   RU: {
     register: "Регистрация",
@@ -123,6 +136,15 @@ const translations: Record<Language, Translations> = {
     cancel: "Отмена",
     searchResults: "Результаты поиска",
     noResults: "Результаты не найдены",
+    cities: {
+      "Chișinău": "Кишинёв",
+      "Bălți": "Бельцы",
+      "Orhei": "Орхей",
+      "Cahul": "Кагул",
+      "Ungheni": "Унгень",
+      "Tiraspol": "Тирасполь",
+      "Comrat": "Комрат",
+    },
   },
 };
 
