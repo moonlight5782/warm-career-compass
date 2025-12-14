@@ -22,7 +22,7 @@ const CompanyExpanded = ({ company, anchorRect, onClose }: Props) => {
 
   const style: React.CSSProperties = {
     position: "fixed",
-    top: anchorRect.top + window.scrollY,
+    top: anchorRect.top,
     left: anchorRect.left,
     width: anchorRect.width,
     zIndex: 50,
