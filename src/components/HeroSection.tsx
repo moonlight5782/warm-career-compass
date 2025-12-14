@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface HeroSectionProps {
-  onSearch: (results: Company[], query: string) => void;
+  onSearch: (query: string) => void;
 }
 
 const HeroSection = ({ onSearch }: HeroSectionProps) => {
@@ -31,28 +31,7 @@ const HeroSection = ({ onSearch }: HeroSectionProps) => {
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
-
-    const query = searchQuery.toLowerCase();
-    const matchingProfessionIds = professions
-      .filter(
-        (p) =>
-          p.name.RO.toLowerCase().includes(query) ||
-          p.name.RU.toLowerCase().includes(query)
-      )
-      .map((p) => p.id);
-
-    let results = companies.filter((company) =>
-      company.professions.some((profId) =>
-        matchingProfessionIds.includes(profId)
-      )
-    );
-
-    // Filter by city if selected
-    if (selectedCity && selectedCity !== t.selectCity) {
-      results = results.filter((company) => company.city === selectedCity);
-    }
-
-    onSearch(results, searchQuery);
+    onSearch(searchQuery);
     setShowSuggestions(false);
   };
 

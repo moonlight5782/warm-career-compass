@@ -84,9 +84,11 @@ const CategoriesSection = () => {
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
               {filteredCompanies.map((company) => (
-                <CompanyCard key={company.id} company={company} />
+                <div key={company.id} className="self-start">
+                  <CompanyCard company={company} />
+                </div>
               ))}
             </div>
           </div>
