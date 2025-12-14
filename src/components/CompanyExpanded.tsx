@@ -22,9 +22,12 @@ const CompanyExpanded = ({ company, anchorRect, onClose }: Props) => {
 
   const style: React.CSSProperties = {
     position: "fixed",
-    top: anchorRect.top,
-    left: anchorRect.left,
-    width: anchorRect.width,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "min(90vw, 400px)",
+    maxHeight: "80vh",
+    overflowY: "auto",
     zIndex: 50,
   };
 
