@@ -34,17 +34,17 @@ const Header = () => {
           {/* Logo - clickable to home */}
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <img src={logo} alt="Explossion" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
-            <span className="text-xl sm:text-2xl font-bold text-foreground hidden sm:inline">Explossion</span>
+            <span className="text-xl sm:text-2xl font-bold text-foreground">Explossion</span>
           </Link>
 
           {/* Right side controls */}
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* Language toggle - single button */}
+            {/* Language toggle - single button showing current language */}
             <button
               onClick={toggleLanguage}
-              className="px-3 py-1.5 bg-card rounded-lg text-sm font-medium shadow-soft hover:bg-secondary/50 transition-colors text-foreground"
+              className="px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium shadow-soft hover:bg-primary/90 transition-colors"
             >
-              {language === "RU" ? "RU/RO" : "RO/RU"}
+              {language}
             </button>
 
             {/* Auth buttons */}
