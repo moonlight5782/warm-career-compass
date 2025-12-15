@@ -64,13 +64,13 @@ const Header = () => {
             {/* Auth buttons */}
             <button
               onClick={openRegister}
-              className="hidden sm:block btn-outline text-sm py-2 px-4"
+              className="btn-outline text-xs sm:text-sm py-1.5 sm:py-2 px-2 sm:px-4"
             >
               {t.register}
             </button>
             <button
               onClick={openLogin}
-              className="btn-primary text-sm py-2 px-5"
+              className="btn-primary text-xs sm:text-sm py-1.5 sm:py-2 px-3 sm:px-5"
             >
               {t.login}
             </button>
