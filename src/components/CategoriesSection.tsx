@@ -46,6 +46,11 @@ const CategoriesSection = () => {
     ? getFilteredCompanies(selectedCategory)
     : [];
 
+  // Компании для отображения - все или отфильтрованные
+  const displayedCompanies = selectedCategory 
+    ? companies.filter(c => c.professions.includes(selectedCategory))
+    : companies;
+
   return (
     <section className="py-12 lg:py-16 px-6 lg:px-12">
       <div className="max-w-6xl mx-auto">
@@ -99,62 +104,41 @@ const CategoriesSection = () => {
           </div>
         )}
 
-        {/* Filtered companies list */}
-        <div
-          className={`overflow-hidden transition-all duration-500 ease-in-out ${
-            selectedCategory && filteredCompanies.length > 0
-              ? "max-h-[2000px] opacity-100 mt-8"
-              : "max-h-0 opacity-0 mt-0"
-          }`}
-        >
-          <div className="animate-fade-in">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-foreground">
-                {t.companiesTitle}: {selectedProfession?.name[language]}
-              </h3>
+        {/* Companies section */}
+        <div className="mt-12">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl md:text-2xl font-bold text-foreground animate-fade-in">
+              {selectedCategory 
+                ? `${t.companiesTitle}: ${selectedProfession?.name[language]}`
+                : (language === "RO" ? "Companii din Republica Moldova" : "Компании Республики Молдова")}
+            </h3>
+            {selectedCategory && (
               <button
                 onClick={() => setSelectedCategory(null)}
                 className="p-2 rounded-lg hover:bg-secondary/50 transition-colors"
               >
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>
-            </div>
+            )}
+          </div>
+          
+          {displayedCompanies.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
-              {filteredCompanies.map((company, index) => (
+              {displayedCompanies.map((company, index) => (
                 <div 
                   key={company.id} 
                   className="self-start animate-fade-in"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <CompanyCard company={company} />
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-
-        {selectedCategory && filteredCompanies.length === 0 && (
-          <div className="mt-8 text-center text-muted-foreground animate-fade-in">
-            {t.noResults}
-          </div>
-        )}
-
-        {/* All companies section */}
-        <div className="mt-12">
-          <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6 animate-fade-in">
-            {language === "RO" ? "Toate companiile" : "Все компании"}
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
-            {companies.map((company, index) => (
-              <div 
-                key={company.id} 
-                className="self-start animate-fade-in"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <CompanyCard company={company} />
-              </div>
-            ))}
-          </div>
+          ) : (
+            <div className="text-center text-muted-foreground animate-fade-in py-8">
+              {t.noResults}
+            </div>
+          )}
         </div>
       </div>
     </section>
