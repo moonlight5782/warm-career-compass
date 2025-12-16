@@ -27,9 +27,13 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 const CategoriesSection = () => {
   const { t, language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [showAllProfessions, setShowAllProfessions] = useState(false);
 
-  // Получаем топ-8 популярных профессий
-  const popularProfessions = getPopularProfessions(8);
+  // Получаем все популярные профессии
+  const allPopularProfessions = getPopularProfessions(12);
+  const visibleProfessions = showAllProfessions 
+    ? allPopularProfessions 
+    : allPopularProfessions.slice(0, 4);
 
   const getFilteredCompanies = (professionId: string) => {
     return companies.filter((company) =>
@@ -37,7 +41,7 @@ const CategoriesSection = () => {
     );
   };
 
-  const selectedProfession = popularProfessions.find((p) => p.id === selectedCategory);
+  const selectedProfession = allPopularProfessions.find((p) => p.id === selectedCategory);
   const filteredCompanies = selectedCategory
     ? getFilteredCompanies(selectedCategory)
     : [];
@@ -50,7 +54,7 @@ const CategoriesSection = () => {
         </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:gap-6">
-          {popularProfessions.map((profession, index) => {
+          {visibleProfessions.map((profession, index) => {
             const IconComponent = iconMap[profession.id] || Monitor;
             return (
               <div
@@ -80,6 +84,20 @@ const CategoriesSection = () => {
             );
           })}
         </div>
+
+        {/* Show more button */}
+        {allPopularProfessions.length > 4 && (
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={() => setShowAllProfessions(!showAllProfessions)}
+              className="px-6 py-2 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-medium transition-all duration-300 hover:scale-105"
+            >
+              {showAllProfessions 
+                ? (language === "RO" ? "Ascunde" : "Скрыть") 
+                : (language === "RO" ? "Mai mult" : "Ещё")}
+            </button>
+          </div>
+        )}
 
         {/* Filtered companies list */}
         <div
@@ -120,6 +138,24 @@ const CategoriesSection = () => {
             {t.noResults}
           </div>
         )}
+
+        {/* All companies section */}
+        <div className="mt-12">
+          <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6 animate-fade-in">
+            {language === "RO" ? "Toate companiile" : "Все компании"}
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+            {companies.map((company, index) => (
+              <div 
+                key={company.id} 
+                className="self-start animate-fade-in"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <CompanyCard company={company} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
