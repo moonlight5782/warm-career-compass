@@ -81,7 +81,7 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-card border-border shadow-card rounded-2xl max-w-md p-0 overflow-hidden">
+      <DialogContent className="bg-card border-border shadow-card rounded-2xl max-w-md p-0 overflow-hidden pointer-events-auto">
         <div className="p-6">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-foreground text-center mb-6">
