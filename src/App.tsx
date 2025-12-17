@@ -11,6 +11,7 @@ import AboutPage from "./pages/AboutPage";
 import CompaniesPage from "./pages/CompaniesPage";
 import ContactsPage from "./pages/ContactsPage";
 import PrivacyPage from "./pages/PrivacyPage";
+import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 import ErrorBoundary from "@/components/ErrorBoundary"; // default import
 import { useState, useEffect } from "react";
@@ -58,6 +59,7 @@ const App = () => {
                     <Route path="/companies" element={<CompaniesPage />} />
                     <Route path="/contacts" element={<ContactsPage />} />
                     <Route path="/privacy" element={<PrivacyPage />} />
+                    <Route path="/admin" element={<AdminPage />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </BrowserRouter>
