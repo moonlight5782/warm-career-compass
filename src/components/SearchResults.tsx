@@ -9,26 +9,36 @@ interface SearchResultsProps {
 }
 
 const SearchResults = ({ results, searchQuery, isVisible }: SearchResultsProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   if (!isVisible || !searchQuery.trim()) return null;
 
   return (
     <section className="py-8 px-6 lg:px-12 animate-fade-in">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-xl font-bold text-foreground mb-6">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-2xl font-bold text-foreground mb-6">
           {t.searchResults}: "{searchQuery}"
         </h2>
-
+        
         {results.length > 0 ? (
-          <div className="grid gap-4">
-            {results.map((company) => (
-              <CompanyCard key={company.id} company={company} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {results.map((company, index) => (
+              <div 
+                key={company.id} 
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <CompanyCard company={company} />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="card-warm text-center py-12">
-            <p className="text-muted-foreground">{t.noResults}</p>
+          <div className="text-center py-12">
+            <p className="text-muted-foreground text-lg">
+              {language === "RO" 
+                ? `Nu s-au găsit rezultate pentru "${searchQuery}"`
+                : `Результаты не найдены для "${searchQuery}"`}
+            </p>
           </div>
         )}
       </div>

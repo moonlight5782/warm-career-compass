@@ -1,185 +1,775 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Warm beige/caramel palette */
-    --background: 35 60% 96%; /* #F8E5CE light cream */
-    --foreground: 24 40% 25%; /* Dark brown text */
+    --background: 35 40% 92%; /* Тёплый кремовый фон */
+    --foreground: 25 30% 25%; /* Тёмный коричневый текст */
     
-    --card: 35 50% 95%; /* Slightly lighter cream for cards */
-    --card-foreground: 24 40% 25%;
+    --primary: 28 50% 55%; /* Капучино-персиковый */
+    --primary-foreground: 0 0% 98%;
     
-    --popover: 35 50% 98%;
-    --popover-foreground: 24 40% 25%;
+    --secondary: 30 35% 88%;
+    --secondary-foreground: 25 30% 25%;
     
-    --primary: 24 55% 55%; /* #C58B63 caramel */
-    --primary-foreground: 0 0% 100%;
+    --border: 30 25% 80%;
+    --input: 30 30% 90%;
+    --ring: 28 50% 55%;
     
-    --secondary: 30 45% 82%; /* #EAC7A6 light caramel */
-    --secondary-foreground: 24 40% 25%;
+    --radius: 0.75rem;
     
-    --muted: 30 30% 90%;
-    --muted-foreground: 24 25% 45%;
+    --shadow-soft: 0 2px 10px rgba(180, 140, 100, 0.1);
+    --shadow-card: 0 4px 20px rgba(180, 140, 100, 0.15);
+    --shadow-hover: 0 8px 30px rgba(180, 140, 100, 0.2);
     
-    --accent: 24 45% 38%; /* #8B5E3C dark brown */
-    --accent-foreground: 0 0% 100%;
-    
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 30 30% 85%;
-    --input: 30 30% 88%;
-    --ring: 24 55% 55%;
-    
-    --radius: 1rem;
-    
-    /* Custom warm colors */
-    --warm-cream: 35 60% 96%;
-    --warm-beige: 30 45% 82%;
-    --warm-caramel: 24 55% 55%;
-    --warm-brown: 24 45% 38%;
-    --warm-dark: 24 40% 25%;
-    
-    /* Shadows */
-    --shadow-soft: 0 4px 20px -4px hsl(24 30% 50% / 0.15);
-    --shadow-card: 0 8px 30px -8px hsl(24 30% 50% / 0.2);
-    --shadow-hover: 0 12px 40px -12px hsl(24 30% 50% / 0.25);
-    
-    /* Gradients */
-    --gradient-warm: linear-gradient(180deg, hsl(35 60% 96%) 0%, hsl(30 45% 88%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(35 50% 97%) 0%, hsl(30 40% 92%) 100%);
-
-    --sidebar-background: 35 50% 95%;
-    --sidebar-foreground: 24 40% 25%;
-    --sidebar-primary: 24 55% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 30 45% 82%;
-    --sidebar-accent-foreground: 24 40% 25%;
-    --sidebar-border: 30 30% 85%;
-    --sidebar-ring: 24 55% 55%;
-  }
-
-  .dark {
-    --background: 24 20% 12%;
-    --foreground: 35 60% 95%;
-    
-    --card: 24 20% 15%;
-    --card-foreground: 35 60% 95%;
-    
-    --popover: 24 20% 15%;
-    --popover-foreground: 35 60% 95%;
-    
-    --primary: 24 55% 55%;
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 24 30% 25%;
-    --secondary-foreground: 35 60% 95%;
-    
-    --muted: 24 20% 20%;
-    --muted-foreground: 35 40% 70%;
-    
-    --accent: 30 45% 70%;
-    --accent-foreground: 24 20% 12%;
-    
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 24 20% 25%;
-    --input: 24 20% 20%;
-    --ring: 24 55% 55%;
-
-    --sidebar-background: 24 20% 15%;
-    --sidebar-foreground: 35 60% 95%;
-    --sidebar-primary: 24 55% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 24 30% 25%;
-    --sidebar-accent-foreground: 35 60% 95%;
-    --sidebar-border: 24 20% 25%;
-    --sidebar-ring: 24 55% 55%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Nunito', sans-serif;
-    background: var(--gradient-warm);
-    min-height: 100vh;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    /* Капучино-персиковая палитра */
+    --warm-cream: 35 40% 92%;
+    --warm-beige: 30 35% 88%;
+    --warm-caramel: 28 50% 55%;
+    --warm-brown: 25 30% 25%;
+    --warm-dark: 20 35% 20%;
   }
 }
 
 @layer components {
-  .card-warm {
-    @apply bg-card rounded-2xl p-6 transition-all duration-300;
-    box-shadow: var(--shadow-card);
-  }
-  
-  .card-warm:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
-  }
-  
+  /* Основные кнопки */
   .btn-primary {
-    @apply bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-xl transition-all duration-300;
+    @apply relative overflow-hidden font-medium rounded-xl px-5 py-4 text-base transition-all duration-300;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
     box-shadow: var(--shadow-soft);
   }
   
   .btn-primary:hover {
-    @apply brightness-105;
+    background-color: hsl(28, 45%, 50%);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
-    transform: translateY(-1px);
   }
   
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  
+  /* Кнопки с обводкой (язык, регистрация) */
   .btn-outline {
-    @apply border-2 border-primary text-primary font-semibold px-6 py-3 rounded-xl transition-all duration-300 bg-transparent;
+    @apply relative overflow-hidden font-medium rounded-xl px-5 py-4 text-base transition-all duration-300 border;
+    background-color: transparent;
+    color: hsl(var(--primary));
+    border-color: hsl(var(--primary));
+    border-width: 2px;
   }
   
   .btn-outline:hover {
-    @apply bg-primary text-primary-foreground;
+    background-color: hsl(var(--primary) / 0.1);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
   }
   
-  .search-input {
-    @apply bg-card border-none rounded-2xl px-6 py-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30;
+  .btn-outline:active {
+    background-color: hsl(var(--primary) / 0.2);
+    transform: translateY(0);
+  }
+  
+  /* Кнопка смены языка (особый стиль) */
+  .btn-lang {
+    @apply px-3 py-1.5 rounded-lg text-sm font-medium shadow-soft transition-all duration-300 border-2;
+    background-color: transparent;
+    color: hsl(var(--primary));
+    border-color: hsl(var(--primary));
+  }
+  
+  .btn-lang:hover {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    transform: scale(1.05);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  .btn-lang:active {
+    transform: scale(0.95);
+  }
+  
+  /* Кнопка регистрации */
+  .btn-register {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-300 border-2;
+    background-color: transparent;
+    color: hsl(var(--primary));
+    border-color: hsl(var(--primary));
+  }
+  
+  .btn-register:hover {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  .btn-register:active {
+    transform: translateY(0);
+  }
+  
+  /* Карточки */
+  .card-warm {
+    @apply rounded-2xl border transition-all duration-300;
+    background: linear-gradient(135deg, hsl(var(--warm-cream)) 0%, hsl(var(--warm-beige)) 100%);
+    border-color: hsl(var(--border));
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .card-warm:hover {
     box-shadow: var(--shadow-card);
   }
   
-  .icon-box {
-    @apply w-16 h-16 rounded-2xl flex items-center justify-center;
-    background: hsl(var(--secondary) / 0.5);
+  /* Модальные окна и диалоги */
+  .dialog-content {
+    @apply rounded-2xl border p-0 overflow-hidden;
+    background: hsl(var(--background));
+    border-color: hsl(var(--border));
+    box-shadow: var(--shadow-card);
   }
   
-  .company-avatar {
-    @apply w-12 h-12 rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg;
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  /* Входные поля */
+  .input-primary {
+    @apply w-full px-5 py-4 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2;
+    background-color: hsl(var(--input));
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+  }
+  
+  .input-primary:focus {
+    border-color: hsl(var(--primary));
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+  }
+  
+  .input-secondary {
+    @apply w-full px-4 py-3 rounded-xl transition-all duration-300;
+    background-color: hsl(var(--secondary) / 0.3);
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+  }
+  
+  .input-secondary:focus {
+    @apply outline-none ring-2;
+    border-color: hsl(var(--primary));
+    ring-color: hsl(var(--primary) / 0.3);
+  }
+  
+  /* Выпадающие списки */
+  .dropdown-content {
+    @apply rounded-xl border mt-2 z-50;
+    background: hsl(var(--background));
+    border-color: hsl(var(--border));
+    box-shadow: var(--shadow-card);
+  }
+  
+  /* Элементы выпадающих списков с подсветкой */
+  .dropdown-item {
+    @apply cursor-pointer px-4 py-3 rounded-lg transition-all duration-200;
+    color: hsl(var(--foreground));
+  }
+  
+  .dropdown-item:hover {
+    background-color: hsl(var(--primary) / 0.1);
+    color: hsl(var(--primary));
+    transform: translateX(2px);
+  }
+  
+  .dropdown-item:active {
+    background-color: hsl(var(--primary) / 0.2);
+    transform: translateX(0);
+  }
+  
+  /* Подсветка активного элемента в выпадающих списках */
+  .dropdown-item-active {
+    background-color: hsl(var(--primary) / 0.15);
+    color: hsl(var(--primary));
+    font-weight: 600;
+  }
+  
+  /* Предложения в поиске */
+  .suggestion-item {
+    @apply w-full px-4 py-3 text-left transition-all duration-200 flex items-center gap-3;
+    color: hsl(var(--foreground));
+    border-bottom: 1px solid hsl(var(--border) / 0.5);
+  }
+  
+  .suggestion-item:hover {
+    background-color: hsl(var(--primary) / 0.08);
+    color: hsl(var(--primary));
+  }
+  
+  .suggestion-item-active {
+    background-color: hsl(var(--primary) / 0.15);
+    color: hsl(var(--primary));
+    font-weight: 600;
+  }
+  
+  /* Иконки в боксах */
+  .icon-box {
+    @apply w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--secondary) / 0.4) 100%);
+  }
+  
+  /* Заголовки */
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold;
+    color: hsl(var(--foreground));
+  }
+  
+  /* Хедер */
+  .fixed-header {
+    @apply fixed top-0 left-0 right-0 z-50 transition-all duration-300;
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  
+  .header-spacer {
+    height: 5rem; /* Соответствует высоте хедера */
   }
 }
 
 @layer utilities {
-  .text-warm-brown {
-    color: hsl(var(--warm-brown));
+  /* Анимации */
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
   }
   
-  .text-warm-caramel {
-    color: hsl(var(--warm-caramel));
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
   }
   
-  .bg-warm-cream {
-    background-color: hsl(var(--warm-cream));
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
   }
   
-  .bg-warm-beige {
-    background-color: hsl(var(--warm-beige));
+  .animate-pulse-slow {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+  
+  /* Градиенты */
+  .bg-gradient-warm {
+    background: linear-gradient(135deg, hsl(var(--warm-cream)) 0%, hsl(var(--warm-beige)) 100%);
+  }
+  
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.8) 100%);
+  }
+  
+  /* Тени */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-hover {
+    box-shadow: var(--shadow-hover);
+  }
+  
+  /* Цвета фона */
+  .bg-background {
+    background-color: hsl(var(--background));
+  }
+  
+  .bg-card {
+    background-color: hsl(var(--background));
+  }
+  
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+  
+  .bg-secondary {
+    background-color: hsl(var(--secondary));
+  }
+  
+  /* Цвета текста */
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+  
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+  
+  .text-secondary {
+    color: hsl(var(--secondary-foreground));
+  }
+  
+  .text-muted-foreground {
+    color: hsl(var(--foreground) / 0.7);
+  }
+  
+  /* Границы */
+  .border-border {
+    border-color: hsl(var(--border));
+  }
+  
+  .border-primary {
+    border-color: hsl(var(--primary));
+  }
+  
+  /* Подсветка */
+  .highlight-primary {
+    background-color: hsl(var(--primary) / 0.1);
+    border-left: 3px solid hsl(var(--primary));
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Дополнительные стили для конкретных компонентов */
+.dialog-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+/* Стили для выпадающих меню в HeroSection */
+[data-radix-popper-content-wrapper] {
+  z-index: 9999 !important;
+}
+
+/* Стили для модальных окон в BookingModal и AuthModal */
+[role="dialog"] {
+  background: hsl(var(--background));
+}
+
+/* Стили для полей ввода в модалках */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+  background-color: hsl(var(--input));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus {
+  outline: none;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+}
+
+/* Стили для выпадающего меню городов */
+[data-radix-dropdown-menu-content] {
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-card);
+  min-width: 180px;
+  padding: 0.25rem;
+}
+
+[data-radix-dropdown-menu-item] {
+  @apply dropdown-item;
+}
+
+[data-radix-dropdown-menu-item][data-highlighted] {
+  @apply dropdown-item-active;
+}
+
+/* Стили для элементов в поиске */
+[data-suggestion-item] {
+  @apply suggestion-item;
+}
+
+[data-suggestion-item][data-highlighted] {
+  @apply suggestion-item-active;
+}
+
+/* Подсветка при наведении на карточки профессий */
+.category-card:hover {
+  @apply highlight-primary;
+}
+
+/* Анимация при клике на кнопки */
+.btn-click-animation:active {
+  animation: click-scale 0.2s ease;
+}
+
+@keyframes click-scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* Дополнительные стили для Radix UI компонентов */
+[data-radix-dropdown-menu-content] {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-card);
+  padding: 0.25rem;
+  min-width: 160px;
+  animation: fade-in 0.2s ease-out;
+}
+
+[data-radix-dropdown-menu-item] {
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: hsl(var(--foreground));
+  outline: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+[data-radix-dropdown-menu-item]:hover {
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+}
+
+[data-radix-dropdown-menu-item][data-highlighted] {
+  background-color: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+/* Стили для подсказок поиска */
+.search-suggestions-container {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.search-suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  color: hsl(var(--foreground));
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.search-suggestion-item:hover {
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+}
+
+.search-suggestion-item.active {
+  background-color: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+/* ===== ПРЯМЫЕ СТИЛИ ДЛЯ RADIX UI И КОМПОНЕНТОВ ===== */
+
+/* Стили для выпадающего списка городов (Radix Dropdown) */
+div[data-radix-dropdown-menu-content] {
+  background-color: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: var(--shadow-card) !important;
+  padding: 0.25rem !important;
+  min-width: 160px !important;
+  animation: fade-in 0.2s ease-out !important;
+  z-index: 9999 !important;
+}
+
+/* Стили для элементов выпадающего списка */
+button[data-radix-dropdown-menu-item] {
+  cursor: pointer !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  color: hsl(var(--foreground)) !important;
+  outline: none !important;
+  transition: background-color 0.2s, color 0.2s !important;
+  margin: 0.125rem !important;
+}
+
+button[data-radix-dropdown-menu-item]:hover {
+  background-color: hsl(var(--primary) / 0.1) !important;
+  color: hsl(var(--primary)) !important;
+}
+
+button[data-radix-dropdown-menu-item][data-highlighted] {
+  background-color: hsl(var(--primary) / 0.15) !important;
+  color: hsl(var(--primary)) !important;
+  font-weight: 600 !important;
+}
+
+/* Стили для подсказок поиска */
+.search-suggestions-container {
+  background-color: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: var(--shadow-card) !important;
+  overflow: hidden !important;
+  margin-top: 0.5rem !important;
+  z-index: 9999 !important;
+  position: absolute !important;
+  width: 100% !important;
+}
+
+.search-suggestion-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.75rem 1rem !important;
+  width: 100% !important;
+  text-align: left !important;
+  border-bottom: 1px solid hsl(var(--border) / 0.5) !important;
+  color: hsl(var(--foreground)) !important;
+  transition: background-color 0.2s, color 0.2s !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.search-suggestion-item:hover {
+  background-color: hsl(var(--primary) / 0.1) !important;
+  color: hsl(var(--primary)) !important;
+}
+
+.search-suggestion-item.active {
+  background-color: hsl(var(--primary) / 0.15) !important;
+  color: hsl(var(--primary)) !important;
+  font-weight: 600 !important;
+}
+
+/* Убираем стандартные стили браузера */
+.search-suggestion-item:focus {
+  outline: none !important;
+}
+
+/* Стили для кнопки очистки поиска */
+.search-clear-btn {
+  position: absolute !important;
+  right: 0.75rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: hsl(var(--muted-foreground)) !important;
+  padding: 0.25rem !important;
+  transition: color 0.2s !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.search-clear-btn:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+/* Стили для поля ввода поиска */
+.search-input {
+  width: 100% !important;
+  padding: 0.75rem 1rem !important;
+  padding-right: 2.5rem !important;
+  border-radius: 0.75rem !important;
+  background-color: hsl(var(--secondary) / 0.3) !important;
+  color: hsl(var(--foreground)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  font-size: 1rem !important;
+  transition: all 0.3s !important;
+}
+
+.search-input:focus {
+  outline: none !important;
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2) !important;
+}
+
+.search-input::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+/* Стили для кнопки выбора города */
+.city-selector-trigger {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.75rem !important;
+  background-color: hsl(var(--secondary) / 0.3) !important;
+  color: hsl(var(--foreground)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  font-weight: 500 !important;
+  min-width: 160px !important;
+  justify-content: space-between !important;
+  transition: all 0.3s !important;
+  cursor: pointer !important;
+}
+
+.city-selector-trigger:hover {
+  background-color: hsl(var(--secondary) / 0.5) !important;
+  border-color: hsl(var(--primary) / 0.5) !important;
+}
+
+.city-selector-trigger:focus {
+  outline: none !important;
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2) !important;
+}
+/* Добавьте эти стили в ваш существующий index.css */
+
+/* Стили для тегов профессий */
+.profession-tag {
+  @apply px-4 py-2 bg-primary/10 text-primary rounded-lg text-sm font-medium transition-all duration-200;
+}
+
+.profession-tag:hover {
+  @apply bg-primary/20 transform scale-105;
+}
+
+/* Улучшенные стили для подсказки навигации */
+.navigation-hint {
+  @apply inline-flex items-center gap-1 px-2 py-1 bg-secondary/50 rounded text-xs font-medium;
+}
+
+/* Адаптивные стили для HeroSection */
+@media (max-width: 768px) {
+  .profession-tag-container {
+    @apply justify-center gap-2;
+  }
+  
+  .profession-tag {
+    @apply px-3 py-1.5 text-xs;
+  }
+}
+
+/* Улучшенные стили для выпадающего списка */
+.dropdown-enter {
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Стили для активного элемента в выпадающем списке */
+.dropdown-item-active {
+  @apply bg-primary/15 text-primary font-semibold;
+}
+/* Добавьте эти стили в ваш index.css */
+
+/* Стили для ограниченного выпадающего списка городов */
+.city-dropdown-scrollable {
+  max-height: 336px; /* 6 элементов × 48px + 48px для "Все города" */
+  overflow-y: auto;
+}
+
+.city-dropdown-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.city-dropdown-scrollable::-webkit-scrollbar-track {
+  background: hsl(var(--secondary) / 0.3);
+  border-radius: 3px;
+}
+
+.city-dropdown-scrollable::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.4);
+  border-radius: 3px;
+}
+
+.city-dropdown-scrollable::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.6);
+}
+
+/* Индикатор скролла */
+.scroll-indicator {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top,
+    hsl(var(--background)) 0%,
+    hsl(var(--background) / 0.95) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 20;
+}
+
+.scroll-indicator-content {
+  pointer-events: auto;
+  background: hsl(var(--background) / 0.9);
+  backdrop-filter: blur(4px);
+}
+
+/* Стикки элемент для "Все города" */
+.city-dropdown-all-cities {
+  position: sticky;
+  top: 0;
+  background: hsl(var(--background));
+  z-index: 10;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+}
+
+/* Анимация появления выпадающего списка */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.city-dropdown-container {
+  animation: slideDown 0.2s ease-out;
 }

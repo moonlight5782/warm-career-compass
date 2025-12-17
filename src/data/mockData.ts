@@ -7,7 +7,10 @@ export interface Company {
     RO: string;
     RU: string;
   };
-  address: string;
+  address: {
+    RO: string;
+    RU: string;
+  };
   phone: string;
   professions: string[];
   availableDates: string[];
@@ -20,7 +23,7 @@ export interface Profession {
     RO: string;
     RU: string;
   };
-  searchCount: number; // для определения популярности
+  searchCount: number;
 }
 
 export const professions: Profession[] = [
@@ -60,7 +63,10 @@ export const companies: Company[] = [
       RO: "Companie IT specializată în dezvoltarea de software și soluții digitale pentru afaceri.",
       RU: "IT-компания, специализирующаяся на разработке программного обеспечения и цифровых решений.",
     },
-    address: "str. Alexei Mateevici 75, Chișinău",
+    address: {
+      RO: "str. Alexei Mateevici 75, Chișinău",
+      RU: "ул. Алексея Матеевича 75, Кишинёв"
+    },
     phone: "+373 22 123 456",
     professions: ["frontend", "backend", "designer", "devops"],
     availableDates: ["2025-12-16", "2025-12-18", "2025-12-20", "2025-12-23", "2025-12-27"],
@@ -75,7 +81,10 @@ export const companies: Company[] = [
       RO: "Retailer lider în Moldova pentru electronice și electrocasnice.",
       RU: "Ведущий молдавский ритейлер электроники и бытовой техники.",
     },
-    address: "bd. Ștefan cel Mare 128, Chișinău",
+    address: {
+      RO: "bd. Ștefan cel Mare 128, Chișinău",
+      RU: "бул. Штефана чел Маре 128, Кишинёв"
+    },
     phone: "+373 22 234 567",
     professions: ["sales", "marketing", "manager", "accountant"],
     availableDates: ["2025-12-17", "2025-12-19", "2025-12-24", "2025-12-26"],
@@ -90,7 +99,10 @@ export const companies: Company[] = [
       RO: "Operator de telecomunicații care oferă servicii mobile și internet.",
       RU: "Телекоммуникационный оператор мобильной связи и интернета.",
     },
-    address: "str. Independenței 35, Bălți",
+    address: {
+      RO: "str. Independenței 35, Bălți",
+      RU: "ул. Независимости 35, Бельцы"
+    },
     phone: "+373 231 345 678",
     professions: ["marketing", "sales", "hr", "manager"],
     availableDates: ["2025-12-16", "2025-12-20", "2025-12-25", "2025-12-30"],
@@ -105,7 +117,10 @@ export const companies: Company[] = [
       RO: "Operator de telefonie mobilă inovator cu tehnologii 4G/5G.",
       RU: "Инновационный мобильный оператор с технологиями 4G/5G.",
     },
-    address: "str. Belgrad 3, Chișinău",
+    address: {
+      RO: "str. Belgrad 3, Chișinău",
+      RU: "ул. Белградская 3, Кишинёв"
+    },
     phone: "+373 22 456 789",
     professions: ["frontend", "backend", "marketing", "hr"],
     availableDates: ["2025-12-18", "2025-12-21", "2025-12-24", "2025-12-28"],
@@ -120,7 +135,10 @@ export const companies: Company[] = [
       RO: "Cea mai mare bancă din Moldova cu servicii financiare complete.",
       RU: "Крупнейший банк Молдовы с полным спектром финансовых услуг.",
     },
-    address: "bd. Ștefan cel Mare 171, Chișinău",
+    address: {
+      RO: "bd. Ștefan cel Mare 171, Chișinău",
+      RU: "бул. Штефана чел Маре 171, Кишинёв"
+    },
     phone: "+373 22 567 890",
     professions: ["accountant", "manager", "hr", "marketing", "security"],
     availableDates: ["2025-12-17", "2025-12-19", "2025-12-22", "2025-12-26", "2025-12-29"],
@@ -135,7 +153,10 @@ export const companies: Company[] = [
       RO: "Provider de internet și televiziune prin cablu de mare viteză.",
       RU: "Провайдер высокоскоростного интернета и кабельного телевидения.",
     },
-    address: "str. Calea Ieșilor 8, Chișinău",
+    address: {
+      RO: "str. Calea Ieșilor 8, Chișinău",
+      RU: "ул. Каля Ешилор 8, Кишинёв"
+    },
     phone: "+373 22 678 901",
     professions: ["frontend", "backend", "electrician", "sales"],
     availableDates: ["2025-12-16", "2025-12-18", "2025-12-23", "2025-12-27"],
@@ -150,7 +171,10 @@ export const companies: Company[] = [
       RO: "Rețea de supermarketuri cu produse de calitate la prețuri accesibile.",
       RU: "Сеть супермаркетов с качественными товарами по доступным ценам.",
     },
-    address: "str. Decebal 77, Bălți",
+    address: {
+      RO: "str. Decebal 77, Bălți",
+      RU: "ул. Дечебал 77, Бельцы"
+    },
     phone: "+373 231 789 012",
     professions: ["sales", "manager", "accountant", "driver", "cleaner"],
     availableDates: ["2025-12-17", "2025-12-20", "2025-12-24", "2025-12-28"],
@@ -165,7 +189,10 @@ export const companies: Company[] = [
       RO: "Producător lider de materiale de construcție și vopsele.",
       RU: "Ведущий производитель строительных материалов и красок.",
     },
-    address: "str. Uzinelor 12, Chișinău",
+    address: {
+      RO: "str. Uzinelor 12, Chișinău",
+      RU: "ул. Узинелор 12, Кишинёв"
+    },
     phone: "+373 22 890 123",
     professions: ["mechanic", "welder", "driver", "manager", "accountant"],
     availableDates: ["2025-12-16", "2025-12-19", "2025-12-22", "2025-12-26"],
@@ -180,7 +207,10 @@ export const companies: Company[] = [
       RO: "Producător de sucuri și băuturi naturale din fructe.",
       RU: "Производитель натуральных соков и напитков из фруктов.",
     },
-    address: "str. Vasile Lupu 23, Orhei",
+    address: {
+      RO: "str. Vasile Lupu 23, Orhei",
+      RU: "ул. Василе Лупу 23, Орхей"
+    },
     phone: "+373 235 123 456",
     professions: ["cook", "driver", "mechanic", "accountant", "manager"],
     availableDates: ["2025-12-17", "2025-12-20", "2025-12-23", "2025-12-27"],
@@ -195,7 +225,10 @@ export const companies: Company[] = [
       RO: "Producător premium de vinuri cu tradiție seculară.",
       RU: "Премиальный производитель вин с вековой традицией.",
     },
-    address: "s. Purcari, r. Ștefan Vodă",
+    address: {
+      RO: "s. Purcari, r. Ștefan Vodă",
+      RU: "с. Пуркарь, р-н Штефан-Водэ"
+    },
     phone: "+373 242 234 567",
     professions: ["cook", "waiter", "driver", "manager", "marketing"],
     availableDates: ["2025-12-18", "2025-12-21", "2025-12-24", "2025-12-28"],
@@ -210,7 +243,10 @@ export const companies: Company[] = [
       RO: "Instituție medicală publică cu servicii complete de sănătate.",
       RU: "Государственное медицинское учреждение с полным спектром услуг.",
     },
-    address: "str. Republicii 45, Cahul",
+    address: {
+      RO: "str. Republicii 45, Cahul",
+      RU: "ул. Републичий 45, Кагул"
+    },
     phone: "+373 299 345 678",
     professions: ["nurse", "pharmacist", "cleaner", "driver", "security"],
     availableDates: ["2025-12-16", "2025-12-19", "2025-12-22", "2025-12-26"],
@@ -225,7 +261,10 @@ export const companies: Company[] = [
       RO: "Cafenea și restaurant cu bucătărie tradițională moldovenească.",
       RU: "Кафе и ресторан с традиционной молдавской кухней.",
     },
-    address: "str. Victoriei 12, Florești",
+    address: {
+      RO: "str. Victoriei 12, Florești",
+      RU: "ул. Викторией 12, Флорешты"
+    },
     phone: "+373 250 456 789",
     professions: ["cook", "waiter", "barista", "cleaner", "manager"],
     availableDates: ["2025-12-17", "2025-12-20", "2025-12-23", "2025-12-27"],
@@ -240,7 +279,10 @@ export const companies: Company[] = [
       RO: "Service auto complet cu diagnosticare și reparații.",
       RU: "Полный автосервис с диагностикой и ремонтом.",
     },
-    address: "str. Națională 89, Ungheni",
+    address: {
+      RO: "str. Națională 89, Ungheni",
+      RU: "ул. Националэ 89, Унгены"
+    },
     phone: "+373 236 567 890",
     professions: ["mechanic", "welder", "electrician", "manager", "accountant"],
     availableDates: ["2025-12-18", "2025-12-21", "2025-12-24", "2025-12-28"],
@@ -255,7 +297,10 @@ export const companies: Company[] = [
       RO: "Instituție de învățământ cu tradiții educaționale puternice.",
       RU: "Образовательное учреждение с сильными традициями.",
     },
-    address: "str. Independenței 34, Soroca",
+    address: {
+      RO: "str. Independenței 34, Soroca",
+      RU: "ул. Независимости 34, Сороки"
+    },
     phone: "+373 230 678 901",
     professions: ["teacher", "cleaner", "security", "accountant"],
     availableDates: ["2025-12-16", "2025-12-19", "2025-12-22", "2025-12-26"],
@@ -270,7 +315,10 @@ export const companies: Company[] = [
       RO: "Hotel confortabil cu servicii de calitate în inima Găgăuziei.",
       RU: "Комфортабельный отель с качественным сервисом в сердце Гагаузии.",
     },
-    address: "str. Lenin 56, Comrat",
+    address: {
+      RO: "str. Lenin 56, Comrat",
+      RU: "ул. Ленина 56, Комрат"
+    },
     phone: "+373 298 789 012",
     professions: ["waiter", "cook", "cleaner", "security", "manager"],
     availableDates: ["2025-12-17", "2025-12-20", "2025-12-23", "2025-12-27"],
@@ -285,7 +333,10 @@ export const companies: Company[] = [
       RO: "Fermă agricolă modernă cu producție ecologică.",
       RU: "Современная сельскохозяйственная ферма с экологической продукцией.",
     },
-    address: "str. Independenței 78, Edineț",
+    address: {
+      RO: "str. Independenței 78, Edineț",
+      RU: "ул. Независимости 78, Единец"
+    },
     phone: "+373 246 890 123",
     professions: ["driver", "mechanic", "accountant", "manager"],
     availableDates: ["2025-12-18", "2025-12-21", "2025-12-24", "2025-12-28"],
@@ -300,7 +351,10 @@ export const companies: Company[] = [
       RO: "Rețea de farmacii cu medicamente și produse de îngrijire.",
       RU: "Сеть аптек с лекарствами и средствами ухода.",
     },
-    address: "str. 31 August 23, Drochia",
+    address: {
+      RO: "str. 31 August 23, Drochia",
+      RU: "ул. 31 августа 23, Дрокия"
+    },
     phone: "+373 252 901 234",
     professions: ["pharmacist", "sales", "cleaner", "accountant"],
     availableDates: ["2025-12-16", "2025-12-19", "2025-12-22", "2025-12-26"],
@@ -315,7 +369,10 @@ export const companies: Company[] = [
       RO: "Companie de construcții și renovări profesionale.",
       RU: "Компания профессионального строительства и ремонта.",
     },
-    address: "str. M. Eminescu 45, Hîncești",
+    address: {
+      RO: "str. M. Eminescu 45, Hîncești",
+      RU: "ул. М. Эминеску 45, Хынчешты"
+    },
     phone: "+373 269 012 345",
     professions: ["electrician", "plumber", "welder", "driver", "manager"],
     availableDates: ["2025-12-17", "2025-12-20", "2025-12-23", "2025-12-27"],
@@ -330,7 +387,10 @@ export const companies: Company[] = [
       RO: "Servicii de transport și logistică în toată Moldova.",
       RU: "Услуги транспорта и логистики по всей Молдове.",
     },
-    address: "str. Chișinăului 67, Criuleni",
+    address: {
+      RO: "str. Chișinăului 67, Criuleni",
+      RU: "ул. Кишинэулуй 67, Криуляны"
+    },
     phone: "+373 248 123 456",
     professions: ["driver", "mechanic", "manager", "accountant"],
     availableDates: ["2025-12-18", "2025-12-21", "2025-12-24", "2025-12-28"],
@@ -345,7 +405,10 @@ export const companies: Company[] = [
       RO: "Întreprindere agricolă cu producție de cereale și legume.",
       RU: "Сельскохозяйственное предприятие по производству зерна и овощей.",
     },
-    address: "str. Independenței 90, Sîngerei",
+    address: {
+      RO: "str. Independenței 90, Sîngerei",
+      RU: "ул. Независимости 90, Сынжерей"
+    },
     phone: "+373 262 234 567",
     professions: ["driver", "mechanic", "welder", "accountant", "manager"],
     availableDates: ["2025-12-16", "2025-12-19", "2025-12-22", "2025-12-26"],
@@ -360,7 +423,10 @@ export const companies: Company[] = [
       RO: "Fabrică de prelucrare a lemnului și mobilă.",
       RU: "Фабрика по переработке древесины и производству мебели.",
     },
-    address: "str. Fabricii 12, Rezina",
+    address: {
+      RO: "str. Fabricii 12, Rezina",
+      RU: "ул. Фабричий 12, Резина"
+    },
     phone: "+373 254 345 678",
     professions: ["mechanic", "driver", "welder", "manager", "accountant"],
     availableDates: ["2025-12-17", "2025-12-20", "2025-12-23", "2025-12-27"],
@@ -406,7 +472,6 @@ export const cities = [
   "Cantemir",
 ];
 
-// Функция для получения популярных профессий (по количеству поисков)
 export const getPopularProfessions = (limit: number = 8) => {
   return [...professions]
     .sort((a, b) => b.searchCount - a.searchCount)

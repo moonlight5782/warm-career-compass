@@ -8,7 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -115,6 +114,23 @@ const BookingModal = ({
     return `${year}-${month}-${dayStr}`;
   };
 
+  const formatPhone = (value: string): string => {
+    const digits = value.replace(/\D/g, "");
+    const localDigits = digits.replace(/^373/, "");
+    
+    if (localDigits.length === 0) return "+373 ";
+    if (localDigits.length <= 2) return `+373 ${localDigits}`;
+    if (localDigits.length <= 5) return `+373 ${localDigits.slice(0, 2)} ${localDigits.slice(2)}`;
+    return `+373 ${localDigits.slice(0, 2)} ${localDigits.slice(2, 5)} ${localDigits.slice(5, 8)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const digits = value.replace(/\D/g, "");
+    const localDigits = digits.replace(/^373/, "");
+    setGuestPhone(localDigits);
+  };
+
   const isAvailable = (day: number) => {
     return availableDates.includes(formatDateString(day));
   };
@@ -138,6 +154,13 @@ const BookingModal = ({
   };
 
   const handleConfirmBooking = () => {
+    if (guestPhone.length < 8) {
+      alert(language === "RO" 
+        ? "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)" 
+        : "Пожалуйста, введите корректный номер телефона (минимум 8 цифр)");
+      return;
+    }
+    
     toast({
       title: tx.successTitle,
       description: tx.successDesc,
@@ -150,8 +173,12 @@ const BookingModal = ({
       setStep("time");
     } else if (step === "time" && selectedTime) {
       setStep("info");
-    } else if (step === "info" && guestName && guestPhone) {
+    } else if (step === "info" && guestName && guestPhone.length >= 8) {
       setStep("confirm");
+    } else if (step === "info" && guestPhone.length < 8) {
+      alert(language === "RO" 
+        ? "Vă rugăm să introduceți un număr de телефон valid (minim 8 cifre)" 
+        : "Пожалуйста, введите корректный номер телефона (минимум 8 цифр)");
     }
   };
 
@@ -168,6 +195,9 @@ const BookingModal = ({
     return `${day}.${month}.${year}`;
   };
 
+  const displayPhone = formatPhone(guestPhone);
+  const isPhoneValid = guestPhone.length >= 8;
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card border-border shadow-card rounded-2xl max-w-md p-0 overflow-hidden">
@@ -182,7 +212,6 @@ const BookingModal = ({
             <p className="text-center text-muted-foreground text-sm">{companyName}</p>
           </DialogHeader>
 
-          {/* Step: Date */}
           {step === "date" && (
             <>
               <div className="flex items-center justify-between mt-6 mb-4">
@@ -251,7 +280,6 @@ const BookingModal = ({
             </>
           )}
 
-          {/* Step: Time */}
           {step === "time" && (
             <div className="mt-6">
               <div className="flex items-center gap-2 mb-4 text-muted-foreground">
@@ -276,7 +304,6 @@ const BookingModal = ({
             </div>
           )}
 
-          {/* Step: Info */}
           {step === "info" && (
             <div className="mt-6 space-y-4">
               <div>
@@ -284,11 +311,12 @@ const BookingModal = ({
                   <User className="w-4 h-4" />
                   {tx.name}
                 </label>
-                <Input
+                <input
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
                   placeholder={tx.name}
-                  className="bg-secondary/30"
+                  className="input-primary"
+                  required
                 />
               </div>
               <div>
@@ -296,17 +324,23 @@ const BookingModal = ({
                   <Phone className="w-4 h-4" />
                   {tx.phone}
                 </label>
-                <Input
-                  value={guestPhone}
-                  onChange={(e) => setGuestPhone(e.target.value)}
-                  placeholder="+373 XXX XXX XX"
-                  className="bg-secondary/30"
+                <input
+                  type="tel"
+                  value={displayPhone}
+                  onChange={handlePhoneChange}
+                  placeholder="+373 XX XXX XXX"
+                  className="input-primary"
+                  required
                 />
+                <p className={`text-xs mt-1 ${isPhoneValid ? 'text-green-600' : 'text-muted-foreground'}`}>
+                  {language === "RO" 
+                    ? `Format: +373 XXX XXX XX (${guestPhone.length}/8 cifre)`
+                    : `Формат: +373 XXX XXX XX (${guestPhone.length}/8 цифр)`}
+                </p>
               </div>
             </div>
           )}
 
-          {/* Step: Confirm */}
           {step === "confirm" && (
             <div className="mt-6 space-y-3">
               <p className="text-center text-foreground font-medium mb-4">
@@ -329,13 +363,12 @@ const BookingModal = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">{tx.phone}:</span>
-                  <span className="text-foreground font-medium">{guestPhone}</span>
+                  <span className="text-foreground font-medium">{displayPhone}</span>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Actions */}
           <div className="flex gap-3 mt-6">
             {step !== "date" && (
               <button onClick={handleBack} className="flex-1 btn-outline py-3">
@@ -353,7 +386,7 @@ const BookingModal = ({
                 disabled={
                   (step === "date" && !selectedDate) ||
                   (step === "time" && !selectedTime) ||
-                  (step === "info" && (!guestName || !guestPhone))
+                  (step === "info" && (!guestName || !isPhoneValid))
                 }
                 className="flex-1 btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >

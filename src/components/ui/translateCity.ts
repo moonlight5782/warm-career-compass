@@ -1,17 +1,41 @@
-// Города Республики Молдова
-const cityTranslations: Record<string, string> = {
-  "Chisinau": "Кишинёв",
-  "Balti": "Бельцы",
-  "Cahul": "Кахул",
-  "Comrat": "Комрат",
-  "Orhei": "Орхей",
-  "Soroca": "Сорока",
-  "Ungheni": "Унгены",
-  "Edinet": "Единец",
-  "Tiraspol": "Тирасполь",
-  "Bender": "Бендеры",
+export const translateCity = (city: string): string => {
+  const translations: Record<string, string> = {
+    "Chișinău": "Кишинёв",
+    "Bălți": "Бельцы", 
+    "Orhei": "Орхей",
+    "Cahul": "Кагул",
+    "Ungheni": "Унгень",
+    "Soroca": "Сорока",
+    "Edineț": "Единец",
+    "Comrat": "Комрат",
+    "Florești": "Флорешть",
+    "Drochia": "Дрокия",
+    "Hîncești": "Хынчешть",
+    "Ștefan Vodă": "Штефан Водэ",
+    "Rezina": "Резина",
+    "Sîngerei": "Сынджерей",
+    "Criuleni": "Криулень",
+    "Strășeni": "Стрэшень",
+    "Călărași": "Кэлэрашь",
+    "Căușeni": "Кэушень",
+    "Ialoveni": "Яловень",
+    "Anenii Noi": "Анений Ной",
+    "Cimișlia": "Чимишлия",
+    "Leova": "Леова",
+    "Nisporeni": "Ниспорень",
+    "Telenești": "Теленешть",
+    "Fălești": "Фэлешть",
+    "Glodeni": "Глодень",
+    "Rîșcani": "Рышкань",
+    "Briceni": "Бричень",
+    "Ocnița": "Окница",
+    "Dondușeni": "Дондюшень",
+    "Taraclia": "Тараклия",
+    "Basarabeasca": "Басарабяска",
+    "Șoldănești": "Шолдэнешть",
+    "Dubăsari": "Дубэсарь",
+    "Cantemir": "Кантемир"
+  };
+  
+  return translations[city] || city;
 };
-
-export function translateCity(city: string): string {
-  return cityTranslations[city] || city;
-}

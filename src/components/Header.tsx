@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSearch } from "@/contexts/SearchContext";
 import AuthModal from "./AuthModal";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
   const { language, setLanguage, t } = useLanguage();
+  const { setSearchQuery } = useSearch();
+  const navigate = useNavigate();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
 
@@ -27,42 +30,62 @@ const Header = () => {
     setLanguage(language === "RU" ? "RO" : "RU");
   };
 
+  const handleLogoClick = () => {
+    setSearchQuery("");
+    if (window.location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <>
-      <header className="w-full py-4 px-4 sm:px-6 lg:px-12 animate-fade-in">
+      {/* Fixed Header с классами из index.css */}
+      <header className="fixed-header py-4 px-4 sm:px-6 lg:px-12">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo - clickable to home */}
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src={logo} alt="Explossion" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
-            <span className="text-xl sm:text-2xl font-bold text-foreground">Explossion</span>
-          </Link>
+          <button 
+            onClick={handleLogoClick} 
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity focus:outline-none group"
+          >
+            <img 
+              src={logo} 
+              alt="Explossion" 
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain transition-transform group-hover:scale-105" 
+            />
+            <span className="text-xl sm:text-2xl font-bold text-foreground">
+              Explossion
+            </span>
+          </button>
 
-          {/* Right side controls */}
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* Language toggle - single button showing current language */}
+            {/* Кнопка смены языка */}
             <button
               onClick={toggleLanguage}
-              className="px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium shadow-soft hover:bg-primary/90 transition-colors"
+              className="px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium shadow-soft hover:shadow-hover transition-all hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               {language}
             </button>
 
-            {/* Auth buttons */}
+            {/* Кнопки регистрации и входа с классами из index.css */}
             <button
               onClick={openRegister}
-              className="btn-outline text-xs sm:text-sm py-1.5 sm:py-2 px-2 sm:px-4"
+              className="btn-outline"
             >
               {t.register}
             </button>
             <button
               onClick={openLogin}
-              className="btn-primary text-xs sm:text-sm py-1.5 sm:py-2 px-3 sm:px-5"
+              className="btn-primary"
             >
               {t.login}
             </button>
           </div>
         </div>
       </header>
+
+      {/* Компенсирующий спейсер с классом из index.css */}
+      <div className="header-spacer" />
 
       <AuthModal
         isOpen={authModalOpen}

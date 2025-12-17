@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useSearch } from "@/contexts/SearchContext";
+import { useLanguage } from "@/contexts/LanguageContext"; // ← ДОБАВЬТЕ ЭТУ СТРОКУ!
 import { 
   Monitor, Pencil, Wrench, BarChart3, X, Car, ChefHat, 
   Truck, Stethoscope, Shield, Coffee, Droplets, Calculator
 } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { companies, getPopularProfessions } from "@/data/mockData";
 import CompanyCard from "./CompanyCard";
 
@@ -23,33 +24,25 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   barista: Coffee,
   welder: Wrench,
 };
-
 const CategoriesSection = () => {
   const { t, language } = useLanguage();
+  const { selectedCity } = useSearch();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showAllProfessions, setShowAllProfessions] = useState(false);
 
-  // Получаем все популярные профессии
   const allPopularProfessions = getPopularProfessions(12);
   const visibleProfessions = showAllProfessions 
     ? allPopularProfessions 
     : allPopularProfessions.slice(0, 4);
 
-  const getFilteredCompanies = (professionId: string) => {
-    return companies.filter((company) =>
-      company.professions.includes(professionId)
-    );
-  };
-
   const selectedProfession = allPopularProfessions.find((p) => p.id === selectedCategory);
-  const filteredCompanies = selectedCategory
-    ? getFilteredCompanies(selectedCategory)
-    : [];
-
-  // Компании для отображения - все или отфильтрованные
+  
+  // ИСПРАВЛЕНИЕ: показываем все компании если НЕ выбрана категория
   const displayedCompanies = selectedCategory 
-    ? companies.filter(c => c.professions.includes(selectedCategory))
-    : companies;
+    ? companies
+        .filter(c => c.professions.includes(selectedCategory))
+        .filter(c => !selectedCity || c.city === selectedCity)
+    : companies.filter(c => !selectedCity || c.city === selectedCity); // ← ВСЕ компании если город выбран
 
   return (
     <section className="py-12 lg:py-16 px-6 lg:px-12">
@@ -57,6 +50,15 @@ const CategoriesSection = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 animate-fade-in">
           {t.popularCategories}
         </h2>
+
+        {/* Показываем какой город выбран (если выбран) */}
+        {selectedCity && (
+          <div className="mb-4 text-sm text-muted-foreground">
+            {language === "RO" 
+              ? `Filtrare după oraș: ${selectedCity}`
+              : `Фильтрация по городу: ${selectedCity}`}
+          </div>
+        )}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:gap-6">
           {visibleProfessions.map((profession, index) => {
@@ -90,7 +92,6 @@ const CategoriesSection = () => {
           })}
         </div>
 
-        {/* Show more button */}
         {allPopularProfessions.length > 4 && (
           <div className="flex justify-center mt-6">
             <button
@@ -104,13 +105,14 @@ const CategoriesSection = () => {
           </div>
         )}
 
-        {/* Companies section */}
+        {/* Блок компаний - показываем ВСЕГДА, но с разным заголовком */}
         <div className="mt-12">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl md:text-2xl font-bold text-foreground animate-fade-in">
               {selectedCategory 
                 ? `${t.companiesTitle}: ${selectedProfession?.name[language]}`
                 : (language === "RO" ? "Companii din Republica Moldova" : "Компании Республики Молдова")}
+              {selectedCity && ` • ${selectedCity}`}
             </h3>
             {selectedCategory && (
               <button
@@ -123,20 +125,30 @@ const CategoriesSection = () => {
           </div>
           
           {displayedCompanies.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
-              {displayedCompanies.map((company, index) => (
-                <div 
-                  key={company.id} 
-                  className="self-start animate-fade-in"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  <CompanyCard company={company} />
-                </div>
-              ))}
-            </div>
+            <>
+              <p className="text-muted-foreground mb-4">
+                {displayedCompanies.length} {language === "RO" ? "companii găsite" : "компаний найдено"}
+                {selectedCity && ` ${language === "RO" ? "în" : "в"} ${selectedCity}`}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+                {displayedCompanies.map((company, index) => (
+                  <div 
+                    key={company.id} 
+                    className="self-start animate-fade-in"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <CompanyCard company={company} />
+                  </div>
+                ))}
+              </div>
+            </>
           ) : (
             <div className="text-center text-muted-foreground animate-fade-in py-8">
-              {t.noResults}
+              {selectedCity && selectedCategory
+                ? `${language === "RO" ? "Nu s-au găsit companii cu profesia" : "Не найдено компаний с профессией"} "${selectedProfession?.name[language]}" ${language === "RO" ? "în" : "в"} ${selectedCity}`
+                : selectedCity
+                ? `${language === "RO" ? "Nu s-au găsit companii în" : "Не найдено компаний в"} ${selectedCity}`
+                : t.noResults}
             </div>
           )}
         </div>
@@ -144,5 +156,4 @@ const CategoriesSection = () => {
     </section>
   );
 };
-
 export default CategoriesSection;

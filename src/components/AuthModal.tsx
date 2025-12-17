@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Dialog,
@@ -16,22 +15,69 @@ interface AuthModalProps {
 }
 
 const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage(); // Убедитесь, что language используется
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+
+  // Функция для форматирования телефона с предустановленным +373
+  const formatPhone = (value: string): string => {
+    const digits = value.replace(/\D/g, "");
+    const localDigits = digits.replace(/^373/, "");
+    
+    if (localDigits.length === 0) return "+373 ";
+    if (localDigits.length <= 2) return `+373 ${localDigits}`;
+    if (localDigits.length <= 5) return `+373 ${localDigits.slice(0, 2)} ${localDigits.slice(2)}`;
+    return `+373 ${localDigits.slice(0, 2)} ${localDigits.slice(2, 5)} ${localDigits.slice(5, 8)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const digits = value.replace(/\D/g, "");
+    const localDigits = digits.replace(/^373/, "");
+    setPhone(localDigits);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Demo - just close modal
+    
+    // Простая валидация
+    if (mode === "register" && phone.length < 8) {
+      alert(
+        language === "RO" 
+          ? "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)" 
+          : "Пожалуйста, введите корректный номер телефона (минимум 8 цифр)"
+      );
+      return;
+    }
+    
+    // Demo - закрываем модалку
     onClose();
+    
+    // Очищаем поля после закрытия
+    setEmail("");
+    setPassword("");
+    setFirstName("");
+    setLastName("");
+    setPhone("");
   };
 
   const handleGoogleAuth = () => {
-    // Demo - just close modal
+    // Demo - закрываем модалку
     onClose();
+    
+    // Очищаем поля
+    setEmail("");
+    setPassword("");
+    setFirstName("");
+    setLastName("");
+    setPhone("");
   };
+
+  const isPhoneValid = phone.length >= 8;
+  const displayPhone = formatPhone(phone);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -55,6 +101,7 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-secondary/30 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                    required={mode === "register"}
                   />
                 </div>
                 <div>
@@ -66,6 +113,7 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-secondary/30 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                    required={mode === "register"}
                   />
                 </div>
               </div>
@@ -80,6 +128,7 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-secondary/30 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                required
               />
             </div>
 
@@ -92,8 +141,29 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-secondary/30 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                required
               />
             </div>
+
+            {mode === "register" && (
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  {language === "RO" ? "Telefon" : "Телефон"}
+                </label>
+                <input
+                  type="tel"
+                  value={displayPhone}
+                  onChange={handlePhoneChange}
+                  placeholder="+373 XX XXX XXX"
+                  className="w-full px-4 py-3 rounded-xl bg-secondary/30 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                />
+                <p className={`text-xs mt-1 ${isPhoneValid ? 'text-green-600' : 'text-muted-foreground'}`}>
+                  {language === "RO" 
+                    ? `Format: +373 XXX XXX XX (${phone.length}/8 cifre)`
+                    : `Формат: +373 XXX XXX XX (${phone.length}/8 цифр)`}
+                </p>
+              </div>
+            )}
 
             <button
               type="submit"

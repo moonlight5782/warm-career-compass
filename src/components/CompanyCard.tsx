@@ -54,7 +54,7 @@ const CompanyCard = ({ company }: Props) => {
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="w-4 h-4 text-primary" />
                 <span>
-                  {t.cities[company.city] || company.city}, {company.address}
+                  {t.cities[company.city] || company.city}, {company.address[language]}
                 </span>
               </div>
 

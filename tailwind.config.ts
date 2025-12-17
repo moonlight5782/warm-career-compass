@@ -107,6 +107,46 @@ export default {
           "0%": { transform: "scale(0.95)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        // Новые анимации для GlobalLoader
+        "pulse-glow": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.7", transform: "scale(1.05)" },
+        },
+        "ping-slow": {
+          "75%, 100%": { 
+            transform: "scale(1.5)", 
+            opacity: "0" 
+          },
+        },
+        "spin-slow": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        "progress-bar": {
+          "0%": { width: "0%" },
+          "100%": { width: "100%" },
+        },
+        "slide-in-bottom": {
+          "0%": { transform: "translateY(30px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        "bounce-slow": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "text-pulse": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.6" },
+        },
+        "gradient-shift": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
+        "shimmer": {
+          "0%": { backgroundPosition: "-1000px 0" },
+          "100%": { backgroundPosition: "1000px 0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -114,6 +154,20 @@ export default {
         "fade-in": "fade-in 0.5s ease-out",
         "fade-in-up": "fade-in-up 0.6s ease-out",
         "scale-in": "scale-in 0.3s ease-out",
+        // Новые анимации для GlobalLoader
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "ping-slow": "ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "spin-slow": "spin-slow 3s linear infinite",
+        "progress-bar": "progress-bar 2s ease-in-out",
+        "slide-in-bottom": "slide-in-bottom 0.5s ease-out",
+        "bounce-slow": "bounce-slow 2s ease-in-out infinite",
+        "text-pulse": "text-pulse 1.5s ease-in-out infinite",
+        "gradient-shift": "gradient-shift 3s ease infinite",
+        "shimmer": "shimmer 2s infinite linear",
+      },
+      // Добавим backgroundSize для анимации gradient
+      backgroundSize: {
+        "200%": "200% 200%",
       },
     },
   },

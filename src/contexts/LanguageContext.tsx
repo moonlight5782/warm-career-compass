@@ -137,14 +137,42 @@ const translations: Record<Language, Translations> = {
     searchResults: "Результаты поиска",
     noResults: "Результаты не найдены",
     cities: {
-      "Chișinău": "Кишинёв",
-      "Bălți": "Бельцы",
-      "Orhei": "Орхей",
-      "Cahul": "Кагул",
-      "Ungheni": "Унгень",
-      "Tiraspol": "Тирасполь",
-      "Comrat": "Комрат",
-    },
+              "Chișinău": "Кишинёв",
+              "Bălți": "Бельцы",
+              "Orhei": "Орхей",
+              "Cahul": "Кагул",
+              "Ungheni": "Унгены",
+              "Soroca": "Сороки",
+              "Edineț": "Единцы", 
+              "Comrat": "Комрат",
+              "Florești": "Флорешты",
+              "Drochia": "Дрокия",
+              "Hîncești": "Хынчешты",
+              "Ștefan Vodă": "Штефан-Водэ",
+              "Rezina": "Резина",
+              "Sîngerei": "Сынжерей",
+              "Criuleni": "Криуляны",
+              "Strășeni": "Стрэшены",
+              "Călărași": "Калараш",
+              "Căușeni": "Каушаны",
+              "Ialoveni": "Яловены",
+              "Anenii Noi": "Новые Анены",
+              "Cimișlia": "Чимишлия",
+              "Leova": "Леова",
+              "Nisporeni": "Ниспорены",
+              "Telenești": "Теленешты",
+              "Fălești": "Фалешты",
+              "Glodeni": "Глодяны",
+              "Rîșcani": "Рышканы",
+              "Briceni": "Бричаны",
+              "Ocnița": "Окница",
+              "Dondușeni": "Дондюшаны",
+              "Taraclia": "Тараклия",
+              "Basarabeasca": "Басарабяска",
+              "Șoldănești": "Шолданешты",
+              "Dubăsari": "Дубосары",
+              "Cantemir": "Кантемир"
+            },
   },
 };
 
@@ -177,5 +205,5 @@ export const useLanguage = () => {
   if (!context) {
     throw new Error("useLanguage must be used within a LanguageProvider");
   }
-  return context;
+  return context; 
 };
