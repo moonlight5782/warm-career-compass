@@ -12,7 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { cities, professions, Company } from "@/data/mockData";
+import { useProfessions } from "@/contexts/ProfessionsContext";
+import { cities, Company } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 
 interface Branch {
@@ -31,7 +32,8 @@ interface AdminCompanyModalProps {
 }
 
 const AdminCompanyModal = ({ isOpen, onClose, onAddCompany }: AdminCompanyModalProps) => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
+  const { professions, addProfession } = useProfessions();
   const { toast } = useToast();
   
   const [companyName, setCompanyName] = useState("");
@@ -43,6 +45,11 @@ const AdminCompanyModal = ({ isOpen, onClose, onAddCompany }: AdminCompanyModalP
   const [mainPhone, setMainPhone] = useState("");
   const [selectedProfessions, setSelectedProfessions] = useState<string[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
+  
+  // Для добавления новой профессии
+  const [showNewProfessionForm, setShowNewProfessionForm] = useState(false);
+  const [newProfessionRO, setNewProfessionRO] = useState("");
+  const [newProfessionRU, setNewProfessionRU] = useState("");
 
   const resetForm = () => {
     setCompanyName("");
@@ -54,6 +61,9 @@ const AdminCompanyModal = ({ isOpen, onClose, onAddCompany }: AdminCompanyModalP
     setMainPhone("");
     setSelectedProfessions([]);
     setBranches([]);
+    setShowNewProfessionForm(false);
+    setNewProfessionRO("");
+    setNewProfessionRU("");
   };
 
   const addBranch = () => {
@@ -82,6 +92,43 @@ const AdminCompanyModal = ({ isOpen, onClose, onAddCompany }: AdminCompanyModalP
         ? prev.filter(p => p !== professionId)
         : [...prev, professionId]
     );
+  };
+
+  const handleAddNewProfession = () => {
+    if (!newProfessionRO.trim() || !newProfessionRU.trim()) {
+      toast({
+        title: language === "RO" ? "Eroare" : "Ошибка",
+        description: language === "RO" 
+          ? "Introduceți numele profesiei în ambele limbi" 
+          : "Введите название профессии на обоих языках",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const newId = newProfessionRO.toLowerCase().replace(/\s+/g, "_") + "_" + Date.now();
+    const newProfession = {
+      id: newId,
+      name: {
+        RO: newProfessionRO.trim(),
+        RU: newProfessionRU.trim(),
+      },
+      searchCount: 0,
+    };
+
+    addProfession(newProfession);
+    setSelectedProfessions(prev => [...prev, newId]);
+    
+    toast({
+      title: language === "RO" ? "Succes!" : "Успешно!",
+      description: language === "RO" 
+        ? `Profesia "${newProfessionRO}" a fost adăugată` 
+        : `Профессия "${newProfessionRU}" добавлена`,
+    });
+
+    setNewProfessionRO("");
+    setNewProfessionRU("");
+    setShowNewProfessionForm(false);
   };
 
   const handleSubmit = () => {
@@ -184,7 +231,7 @@ const AdminCompanyModal = ({ isOpen, onClose, onAddCompany }: AdminCompanyModalP
               >
                 <option value="">{language === "RO" ? "Selectați orașul" : "Выберите город"}</option>
                 {cities.map((city) => (
-                  <option key={city} value={city}>{city}</option>
+                  <option key={city} value={city}>{t.cities?.[city] || city}</option>
                 ))}
               </select>
             </div>
@@ -244,10 +291,67 @@ const AdminCompanyModal = ({ isOpen, onClose, onAddCompany }: AdminCompanyModalP
 
             {/* Professions */}
             <div className="space-y-3">
-              <Label className="flex items-center gap-2 text-foreground font-medium">
-                <Briefcase className="w-4 h-4 text-primary" />
-                {language === "RO" ? "Profesii disponibile *" : "Доступные профессии *"}
-              </Label>
+              <div className="flex items-center justify-between">
+                <Label className="flex items-center gap-2 text-foreground font-medium">
+                  <Briefcase className="w-4 h-4 text-primary" />
+                  {language === "RO" ? "Profesii disponibile *" : "Доступные профессии *"}
+                </Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowNewProfessionForm(!showNewProfessionForm)}
+                  className="flex items-center gap-1 text-xs"
+                >
+                  <Plus className="w-3 h-3" />
+                  {language === "RO" ? "Profesie nouă" : "Новая профессия"}
+                </Button>
+              </div>
+
+              {/* Form for adding new profession */}
+              {showNewProfessionForm && (
+                <div className="p-4 bg-primary/5 rounded-xl border border-primary/20 space-y-3">
+                  <p className="text-sm font-medium text-foreground">
+                    {language === "RO" ? "Adăugați o profesie nouă:" : "Добавить новую профессию:"}
+                  </p>
+                  <Input
+                    value={newProfessionRO}
+                    onChange={(e) => setNewProfessionRO(e.target.value)}
+                    placeholder={language === "RO" ? "Numele în română" : "Название на румынском"}
+                    className="bg-background border-border text-sm"
+                  />
+                  <Input
+                    value={newProfessionRU}
+                    onChange={(e) => setNewProfessionRU(e.target.value)}
+                    placeholder={language === "RO" ? "Numele în rusă" : "Название на русском"}
+                    className="bg-background border-border text-sm"
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={handleAddNewProfession}
+                      className="btn-primary text-xs"
+                    >
+                      {language === "RO" ? "Adaugă" : "Добавить"}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setShowNewProfessionForm(false);
+                        setNewProfessionRO("");
+                        setNewProfessionRU("");
+                      }}
+                      className="text-xs"
+                    >
+                      {language === "RO" ? "Anulează" : "Отмена"}
+                    </Button>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-[200px] overflow-y-auto p-3 bg-secondary/30 rounded-xl border border-border">
                 {professions.map((profession) => (
                   <label
@@ -307,7 +411,7 @@ const AdminCompanyModal = ({ isOpen, onClose, onAddCompany }: AdminCompanyModalP
                   >
                     <option value="">{language === "RO" ? "Selectați orașul" : "Выберите город"}</option>
                     {cities.map((city) => (
-                      <option key={city} value={city}>{city}</option>
+                      <option key={city} value={city}>{t.cities?.[city] || city}</option>
                     ))}
                   </select>
                   

@@ -2,7 +2,8 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { Search, MapPin, ChevronDown, X, Briefcase } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSearch } from "@/contexts/SearchContext";
-import { cities, professions } from "@/data/mockData";
+import { useProfessions } from "@/contexts/ProfessionsContext";
+import { cities } from "@/data/mockData";
 
 interface HeroSectionProps {
   onSearch: (query: string) => void;
@@ -11,6 +12,7 @@ interface HeroSectionProps {
 const HeroSection = ({ onSearch }: HeroSectionProps) => {
   const { t, language } = useLanguage();
   const { selectedCity, setSelectedCity, searchQuery, setSearchQuery } = useSearch();
+  const { professions } = useProfessions();
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
