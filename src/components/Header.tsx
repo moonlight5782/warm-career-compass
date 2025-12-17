@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Shield } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSearch } from "@/contexts/SearchContext";
 import AuthModal from "./AuthModal";
@@ -9,8 +10,11 @@ const Header = () => {
   const { language, setLanguage, t } = useLanguage();
   const { setSearchQuery } = useSearch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
+
+  const isAdminPage = location.pathname === "/admin";
 
   const openLogin = () => {
     setAuthMode("login");
@@ -66,6 +70,17 @@ const Header = () => {
             >
               {language}
             </button>
+
+            {/* Кнопка админ-панели */}
+            {!isAdminPage && (
+              <button
+                onClick={() => navigate("/admin")}
+                className="p-2 bg-secondary/50 hover:bg-secondary text-foreground rounded-lg transition-all hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                title={language === "RO" ? "Panou Admin" : "Админ-панель"}
+              >
+                <Shield className="w-5 h-5" />
+              </button>
+            )}
 
             {/* Кнопки регистрации и входа с классами из index.css */}
             <button

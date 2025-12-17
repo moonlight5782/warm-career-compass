@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { SearchProvider } from "@/contexts/SearchContext";
+import { ProfessionsProvider } from "@/contexts/ProfessionsContext";
 import Index from "./pages/Index";
 import AboutPage from "./pages/AboutPage";
 import CompaniesPage from "./pages/CompaniesPage";
@@ -49,21 +50,23 @@ const App = () => {
             <GlobalLoader />
           ) : (
             <SearchProvider>
-              <TooltipProvider>
-                <Toaster />
-                <Sonner />
-                <BrowserRouter>
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/companies" element={<CompaniesPage />} />
-                    <Route path="/contacts" element={<ContactsPage />} />
-                    <Route path="/privacy" element={<PrivacyPage />} />
-                    <Route path="/admin" element={<AdminPage />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </BrowserRouter>
-              </TooltipProvider>
+              <ProfessionsProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <Sonner />
+                  <BrowserRouter>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/about" element={<AboutPage />} />
+                      <Route path="/companies" element={<CompaniesPage />} />
+                      <Route path="/contacts" element={<ContactsPage />} />
+                      <Route path="/privacy" element={<PrivacyPage />} />
+                      <Route path="/admin" element={<AdminPage />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </BrowserRouter>
+                </TooltipProvider>
+              </ProfessionsProvider>
             </SearchProvider>
           )}
         </LanguageProvider>

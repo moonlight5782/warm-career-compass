@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useSearch } from "@/contexts/SearchContext";
-import { useLanguage } from "@/contexts/LanguageContext"; // ← ДОБАВЬТЕ ЭТУ СТРОКУ!
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useProfessions } from "@/contexts/ProfessionsContext";
 import { 
   Monitor, Pencil, Wrench, BarChart3, X, Car, ChefHat, 
   Truck, Stethoscope, Shield, Coffee, Droplets, Calculator
 } from "lucide-react";
-import { companies, getPopularProfessions } from "@/data/mockData";
+import { companies } from "@/data/mockData";
 import CompanyCard from "./CompanyCard";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -27,10 +28,14 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 const CategoriesSection = () => {
   const { t, language } = useLanguage();
   const { selectedCity } = useSearch();
+  const { professions } = useProfessions();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showAllProfessions, setShowAllProfessions] = useState(false);
 
-  const allPopularProfessions = getPopularProfessions(12);
+  const allPopularProfessions = useMemo(() => {
+    return [...professions].sort((a, b) => b.searchCount - a.searchCount).slice(0, 12);
+  }, [professions]);
+  
   const visibleProfessions = showAllProfessions 
     ? allPopularProfessions 
     : allPopularProfessions.slice(0, 4);
