@@ -192,10 +192,13 @@ const HeroSection = ({ onSearch }: HeroSectionProps) => {
                   ))}
                 </div>
                 
+                {/* Отступ снизу для списка */}
+                <div className="h-10" />
+                
                 {/* Индикатор скролла показываем только если городов больше 6 */}
                 {cities.length > 6 && (
-                  <div className="sticky bottom-0 left-0 right-0 py-1 bg-gradient-to-t from-background to-transparent text-center">
-                    <div className="text-xs text-muted-foreground px-2 py-1 bg-background/80 rounded-full inline-flex items-center gap-1">
+                  <div className="absolute bottom-0 left-0 right-0 py-2 bg-gradient-to-t from-background via-background/95 to-transparent text-center pointer-events-none">
+                    <div className="text-xs text-muted-foreground px-2 py-1 bg-background/90 rounded-full inline-flex items-center gap-1 shadow-sm">
                       <span className="opacity-70">↑↓</span>
                       <span>{language === "RO" ? "mai multe orașe" : "ещё города"}</span>
                     </div>
@@ -250,12 +253,7 @@ const HeroSection = ({ onSearch }: HeroSectionProps) => {
                       }`}
                     >
                       <Briefcase className="w-5 h-5 text-primary flex-shrink-0" />
-                      <div className="flex flex-col items-start">
-                        <div className="font-medium text-base">{suggestion.name}</div>
-                        <div className="text-xs text-muted-foreground mt-0.5">
-                          {language === "RO" ? "profesie" : "профессия"}
-                        </div>
-                      </div>
+                      <span className="font-medium text-base">{suggestion.name}</span>
                     </button>
                   ))}
                 </div>
