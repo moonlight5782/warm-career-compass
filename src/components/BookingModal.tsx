@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Clock, User, Phone } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
@@ -30,6 +31,7 @@ const BookingModal = ({
   unavailableDates,
 }: BookingModalProps) => {
   const { t, language } = useLanguage();
+  const { profile } = useAuth();
   const { toast } = useToast();
   const [currentMonth, setCurrentMonth] = useState(new Date(2025, 11, 1));
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -37,6 +39,28 @@ const BookingModal = ({
   const [step, setStep] = useState<"date" | "time" | "info" | "confirm">("date");
   const [guestName, setGuestName] = useState("");
   const [guestPhone, setGuestPhone] = useState("");
+
+  // Auto-fill user data when modal opens
+  useEffect(() => {
+    if (isOpen && profile) {
+      const fullName = [profile.first_name, profile.last_name].filter(Boolean).join(" ");
+      setGuestName(fullName);
+      setGuestPhone(profile.phone || "");
+    }
+  }, [isOpen, profile]);
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setStep("date");
+      setSelectedDate(null);
+      setSelectedTime(null);
+      if (!profile) {
+        setGuestName("");
+        setGuestPhone("");
+      }
+    }
+  }, [isOpen, profile]);
 
   const monthNames = {
     RO: [
@@ -69,6 +93,7 @@ const BookingModal = ({
       confirmBook: "Confirmă rezervarea",
       successTitle: "Rezervare confirmată!",
       successDesc: "Veți primi un mesaj de confirmare.",
+      autoFilled: "Datele completate automat din profil",
     },
     RU: {
       selectTime: "Выберите время",
@@ -84,6 +109,7 @@ const BookingModal = ({
       confirmBook: "Подтвердить запись",
       successTitle: "Запись подтверждена!",
       successDesc: "Вы получите сообщение с подтверждением.",
+      autoFilled: "Данные заполнены автоматически из профиля",
     },
   };
 
@@ -155,9 +181,13 @@ const BookingModal = ({
 
   const handleConfirmBooking = () => {
     if (guestPhone.length < 8) {
-      alert(language === "RO" 
-        ? "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)" 
-        : "Пожалуйста, введите корректный номер телефона (минимум 8 цифр)");
+      toast({
+        title: language === "RO" ? "Eroare" : "Ошибка",
+        description: language === "RO" 
+          ? "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)" 
+          : "Пожалуйста, введите корректный номер телефона (минимум 8 цифр)",
+        variant: "destructive",
+      });
       return;
     }
     
@@ -176,9 +206,13 @@ const BookingModal = ({
     } else if (step === "info" && guestName && guestPhone.length >= 8) {
       setStep("confirm");
     } else if (step === "info" && guestPhone.length < 8) {
-      alert(language === "RO" 
-        ? "Vă rugăm să introduceți un număr de телефон valid (minim 8 cifre)" 
-        : "Пожалуйста, введите корректный номер телефона (минимум 8 цифр)");
+      toast({
+        title: language === "RO" ? "Eroare" : "Ошибка",
+        description: language === "RO" 
+          ? "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)" 
+          : "Пожалуйста, введите корректный номер телефона (минимум 8 цифр)",
+        variant: "destructive",
+      });
     }
   };
 
@@ -306,6 +340,11 @@ const BookingModal = ({
 
           {step === "info" && (
             <div className="mt-6 space-y-4">
+              {profile && (
+                <p className="text-xs text-green-600 dark:text-green-400 text-center">
+                  ✓ {tx.autoFilled}
+                </p>
+              )}
               <div>
                 <label className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                   <User className="w-4 h-4" />

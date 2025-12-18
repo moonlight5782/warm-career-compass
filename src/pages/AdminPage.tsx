@@ -1,21 +1,61 @@
-import { useState } from "react";
-import { Plus, Building2, Shield } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Plus, Building2, Shield, ShieldAlert } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AdminCompanyModal from "@/components/AdminCompanyModal";
 import CompanyCard from "@/components/CompanyCard";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { companies as initialCompanies, Company } from "@/data/mockData";
 
 const AdminPage = () => {
   const { language } = useLanguage();
+  const { user, isAdmin, isLoading } = useAuth();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [companies, setCompanies] = useState<Company[]>(initialCompanies);
+
+  useEffect(() => {
+    if (!isLoading && (!user || !isAdmin)) {
+      navigate("/");
+    }
+  }, [user, isAdmin, isLoading, navigate]);
 
   const handleAddCompany = (newCompany: Company) => {
     setCompanies([newCompany, ...companies]);
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!user || !isAdmin) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center px-4">
+            <ShieldAlert className="w-16 h-16 text-destructive mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              {language === "RO" ? "Acces interzis" : "Доступ запрещен"}
+            </h1>
+            <p className="text-muted-foreground">
+              {language === "RO" 
+                ? "Această pagină este disponibilă doar pentru administratori" 
+                : "Эта страница доступна только администраторам"}
+            </p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
